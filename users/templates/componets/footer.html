@@ -1,0 +1,106 @@
+<style>
+
+.footer-jeke{
+  background: linear-gradient(135deg, rgb(13, 13, 37), rgb(25, 25, 70));
+  padding: 60px 0 25px;
+  border-top: 1px solid rgba(255,255,255,.08);
+  margin-bottom: -10%;
+}
+
+/* Logo */
+.footer-logo{
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: #ffffff;
+  margin-bottom: 10px;
+}
+
+/* Descripción */
+.footer-desc{
+  font-size: 14px;
+  color: rgba(255,255,255,.65);
+  line-height: 1.6;
+}
+
+/* Títulos */
+.footer-title{
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 12px;
+}
+
+/* Links */
+.footer-links{
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-links li{
+  margin-bottom: 8px;
+}
+
+.footer-links a{
+  font-size: 14px;
+  color: rgba(255,255,255,.6);
+  text-decoration: none;
+  transition: color .2s ease, transform .2s ease;
+}
+
+.footer-links a:hover{
+  color: #a5b4fc; /* violeta suave */
+  transform: translateX(3px);
+}
+
+/* Bottom */
+.footer-bottom{
+  margin-top: 40px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255,255,255,.08);
+  text-align: center;
+  font-size: 13px;
+  color: rgba(255,255,255,.5);
+}
+
+
+</style>
+
+
+<footer class="footer-jeke">
+  <div class="container">
+    <div class="row gy-4 align-items-start">
+
+      <div class="col-md-4">
+        <h5 class="footer-logo">JEKE</h5>
+        <p class="footer-desc">
+          Apuestas por eventos reales.<br>
+          Juego limpio, simple y transparente.
+        </p>
+      </div>
+
+      <div class="col-md-4">
+        <h6 class="footer-title">Explorar</h6>
+        <ul class="footer-links">
+          <li><a href="#">Eventos</a></li>
+          <li><a href="#">Categorías</a></li>
+          <li><a href="#">Resultados</a></li>
+        </ul>
+      </div>
+
+      <div class="col-md-4">
+        <h6 class="footer-title">Legal</h6>
+        <ul class="footer-links">
+          <li><a href="#">Términos y condiciones</a></li>
+          <li><a href="#">Privacidad</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      © {{ year|default:"2026" }} JEKE · Todos los derechos reservados
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,110 @@
+ .event-card {
+        background: linear-gradient(160deg, #1c1a22, #121117);
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        overflow: hidden;
+        transition: all .3s ease;
+      }
+
+      .event-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, .6);
+      }
+
+      /* HEADER */
+      .event-header {
+        padding: .6rem .9rem;
+        background: rgba(255, 255, 255, 0.04);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      }
+
+      .badge-category {
+        background: linear-gradient(135deg, #ff9800, #ff5722);
+        font-size: .7rem;
+        padding: .35rem .6rem;
+        border-radius: 20px;
+      }
+
+      .badge-time {
+        font-size: .75rem;
+        color: #bdbdbd;
+      }
+
+      /* VS */
+      .event-vs {
+        font-weight: 700;
+        letter-spacing: .5px;
+        margin: 1rem 0 .6rem;
+      }
+
+      .event-vs span {
+        color: #ff9800;
+        margin: 0 .4rem;
+      }
+
+      /* DESCRIPCIÓN */
+      .event-desc {
+        font-size: .85rem;
+        color: #cfcfcf;
+        line-height: 1.4;
+        max-height: 40px;
+        overflow: hidden;
+      }
+
+      .read-more {
+        font-size: .75rem;
+        color: #ff9800;
+        cursor: pointer;
+        display: inline-block;
+        margin-top: .2rem;
+      }
+
+      /* OPCIONES */
+      .odd-box {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        padding: .6rem;
+        border-radius: 10px;
+        font-size: .85rem;
+        text-align: center;
+        cursor: pointer;
+        transition: all .25s ease;
+      }
+
+      .odd-box:hover {
+        background: rgba(255, 152, 0, 0.15);
+        border-color: #ff9800;
+      }
+
+      /* BOTÓN */
+      .btn-bet {
+        background: linear-gradient(135deg, #1e88e5, #0d47a1);
+        border-radius: 12px;
+        font-weight: 600;
+        letter-spacing: .5px;
+        padding: .6rem;
+        transition: all .3s ease;
+      }
+
+      .btn-bet:hover {
+        background: linear-gradient(135deg, #2196f3, #1565c0);
+        transform: scale(1.03);
+      }
+
+      /* ===================== */
+
+      .carousel img {
+        height: 340px;
+        object-fit: cover;
+        filter: brightness(.85);
+      }
+
+      .carousel::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to top,
+            rgba(0, 0, 0, .6),
+            rgba(0, 0, 0, .1));
+        pointer-events: none;
+      }

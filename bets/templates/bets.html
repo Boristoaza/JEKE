@@ -1,0 +1,114 @@
+{% extends 'master.html' %}
+
+{% block extra_css %}
+<style>
+/* ======= MIS APUESTAS ======= */
+.bets-title{
+  font-size: 22px;
+  font-weight: 800;
+  color: #111827;
+  margin-bottom: 25px;
+}
+
+/* Card */
+.bet-card{
+  background: #ffffff;
+  border-radius: 18px;
+  border: 1px solid #f1f3f5;
+  box-shadow: 0 10px 25px rgba(0,0,0,.06);
+  transition: transform .25s ease, box-shadow .25s ease;
+  height: 100%;
+}
+
+.bet-card:hover{
+  transform: translateY(-4px);
+  box-shadow: 0 18px 40px rgba(0,0,0,.1);
+}
+
+.bet-card-body{
+  padding: 22px;
+}
+
+/* Header */
+.bet-event{
+  font-size: 13px;
+  font-weight: 700;
+  color: #4338ca;
+  background: #eef2ff;
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 999px;
+  margin-bottom: 14px;
+}
+
+/* Option */
+.bet-option{
+  font-size: 16px;
+  font-weight: 800;
+  color: #111827;
+  margin-bottom: 12px;
+}
+
+/* Dates */
+.bet-date{
+  font-size: 13px;
+  color: #6b7280;
+  margin-bottom: 8px;
+}
+
+.bet-close{
+  font-size: 13px;
+  font-weight: 600;
+  color: #dc2626;
+}
+</style>
+{% endblock %}
+
+
+{% block content %}
+<div class="container mt-4">
+
+  <h2 class="bets-title">🎯 Mis Predicciones</h2>
+
+  {% if data %}
+    <div class="row g-4">
+
+      {% for bet in data %}
+      <div class="col-md-6 col-lg-4">
+
+        <div class="bet-card">
+          <div class="bet-card-body">
+
+            <span class="bet-event">
+              Evento #{{ bet.event_id }}
+            </span>
+
+            <div class="bet-option">
+              {{ bet.select_option }}
+            </div>
+
+            <div class="bet-date">
+              📅 Apostado el:
+              {{ bet.date_made_bet|date:"d M Y · H:i" }}
+            </div>
+
+            <div class="bet-close">
+              ⏰ Cierre:
+              {{ bet.date_close_bet|date:"d M Y · H:i" }}
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+      {% endfor %}
+
+    </div>
+  {% else %}
+    <div class="alert alert-info mt-4">
+      No tienes predicciones registradas aún.
+    </div>
+  {% endif %}
+
+</div>
+{% endblock %}

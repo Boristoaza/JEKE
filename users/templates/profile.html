@@ -1,0 +1,326 @@
+{% extends "master.html" %}
+
+{% block title %}
+  {{ user.username }}
+{% endblock %}
+
+{% block extra_css %}
+<style>
+  body {
+    background-color: #f5f6f8;
+    min-height: 100vh;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: #111827;
+  }
+
+  /* CARD BASE */
+  .card-jeke {
+    background-color: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,.06);
+    padding: 1.5rem;
+  }
+
+  /* HEADER */
+  .profile-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .avatar {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    background-color: #f3f4f6;
+    border: 2px solid #d1d5db;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.2rem;
+    color: #6b7280;
+  }
+
+  .username {
+    font-weight: 700;
+  }
+
+  .handle {
+    font-size: .85rem;
+    color: #6b7280;
+  }
+
+  /* STATS */
+  .stat {
+    background-color: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 1rem;
+    text-align: center;
+  }
+
+  .stat h5 {
+    font-weight: 700;
+    margin-bottom: .15rem;
+  }
+
+  .stat span {
+    font-size: .8rem;
+    color: #6b7280;
+  }
+
+  /* BUTTONS */
+  .btn-jeke {
+    background-color: #111827;
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: .9rem;
+  }
+
+  .btn-jeke:hover {
+    background-color: #1f2937;
+  }
+
+  .btn-outline-jeke {
+    border: 1px solid #d1d5db;
+    background-color: #ffffff;
+    border-radius: 10px;
+    font-size: .9rem;
+  }
+
+  /* LIST */
+  .list-group-item {
+    border: none;
+    border-bottom: 1px solid #e5e7eb;
+    font-size: .9rem;
+  }
+
+  .badge-win {
+    background-color: #16a34a;
+  }
+
+  .badge-loss {
+    background-color: #dc2626;
+  }
+
+  /* MODAL */
+  .modal-content {
+    border-radius: 16px;
+    border: 1px solid #e5e7eb;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container my-5 ">
+
+  <!-- PERFIL -->
+  <div class="card-jeke mb-4 " style="margin-top: 7%;">
+    <div class="profile-header ">
+
+    <div class="avatar rounded-circle overflow-hidden d-flex align-items-center justify-content-center">
+      {% if image %}
+      <img src="{{ image.image.url }}" alt="Perfil" class="img-fluid w-100 h-100 object-fit-cover">
+      {% else %}
+      <i class="bi bi-person fs-1 text-muted"></i>
+      {% endif %}
+    </div>
+
+
+      <div class="flex-grow-1">
+        <h4 class="username mb-0">{{ user.username }}</h4>
+        <div class="handle">@{{ user.username }}</div>
+      </div>
+
+      <div class="d-flex gap-2">
+
+        <button type="button"
+        class="btn btn-outline-jeke"
+        data-bs-toggle="modal"
+        data-bs-target="#editImageModal">
+  Editar
+</button>
+
+
+        <form method="post" action="{% url 'logout' %}">
+          {% csrf_token %}
+          <button class="btn btn-outline-jeke"
+                  onclick="return confirm('¿Cerrar sesión?')">
+            Salir
+          </button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="row g-3 mb-4">
+    <div class="col-6 col-md-3">
+      <div class="stat">
+        <h5>128</h5>
+        <span>Apuestas</span>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="stat">
+        <h5>72%</h5>
+        <span>Win Rate</span>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="stat">
+        <h5>$1,420</h5>
+        <span>Ganancia</span>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="stat">
+        <h5>64%</h5>
+        <span>ROI</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTENIDO -->
+  <div class="row g-4">
+
+    <!-- INFO -->
+    <div class="col-md-4">
+      <div class="card-jeke">
+        <h6 class="fw-semibold mb-3">Información</h6>
+
+        <p class="mb-2"><strong>Email</strong><br>{{ user.email|default:"—" }}</p>
+        <p class="mb-2"><strong>Miembro desde</strong><br>{{ user.date_joined|date:"F Y" }}</p>
+        <p class="mb-0"><strong>Rol</strong><br>
+          {% if user.is_staff %}Administrador{% else %}Usuario{% endif %}
+        </p>
+      </div>
+    </div>
+
+    <!-- HISTORIAL -->
+    <div class="col-md-8">
+      <div class="card-jeke">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h6 class="fw-semibold mb-0">Últimas apuestas</h6>
+          {% if user.is_authenticated and user.is_staff %}
+          <button class="btn btn-jeke btn-sm"
+                  data-bs-toggle="modal"
+                  data-bs-target="#crearEvento">
+            Crear evento
+          </button>
+        </div>
+        {% endif %}
+
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item d-flex justify-content-between">
+            ¿Barcelona gana el clásico?
+            <span class="badge badge-win">Ganada</span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between">
+            ¿GTA 6 se retrasa?
+            <span class="badge badge-loss">Perdida</span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between">
+            ¿Bitcoin supera $100k?
+            <span class="badge badge-win">Ganada</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{% if user.is_authenticated and user.is_staff %}
+<!-- MODAL CREAR EVENTO -->
+  <div class="modal fade" id="crearEvento" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content p-3">
+
+        <form method="post">
+          {% csrf_token %}
+
+          <div class="modal-header">
+            <h5 class="modal-title fw-semibold">Crear evento</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+
+          <div class="modal-body">
+            <div class="mb-3">
+              <label class="form-label">Nombre del evento</label>
+              <input type="text" class="form-control" name="event_name" required>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Categoría</label>
+              <input type="text" class="form-control" name="category" required>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Participante 1</label>
+                <input type="text" class="form-control" name="first_name" required>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Participante 2</label>
+                <input type="text" class="form-control" name="second_name" required>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Descripción</label>
+              <textarea class="form-control" rows="3" name="description"></textarea>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Cierre de apuestas</label>
+              <input type="datetime-local" class="form-control" name="close_date">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-jeke w-100">
+              Crear evento
+            </button>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  <div class="modal fade" id="editImageModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title">Editar imagen</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <form method="post" enctype="multipart/form-data">
+        <div class="modal-body">
+          {% csrf_token %}
+          {{ form.as_p }}
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            Cancelar
+          </button>
+          <button type="submit" class="btn btn-primary">
+            Guardar cambios
+          </button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}

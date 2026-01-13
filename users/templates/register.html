@@ -1,0 +1,78 @@
+{% extends "master.html" %}
+
+
+{% block extra_css %}
+   <style>
+    body{
+      background-color: white;
+    }
+   </style>
+{% endblock %}
+
+{% block content %}
+<div class="container vh-100 d-flex align-items-center justify-content-center bg-white mt-3">
+  <div class="card border-0 shadow-none p-4" style="max-width: 420px; width: 100%;">
+
+    <div class="text-center mb-4">
+      <h2 class="fw-bold">JEKE</h2>
+      <p class="text-muted mb-0">Crea tu cuenta</p>
+    </div>
+
+    <form method="post">
+      {% csrf_token %}
+
+      <div class="mb-3">
+        <label class="form-label">Usuario</label>
+        <input
+          type="text"
+          name="username"
+          class="form-control"
+          placeholder="tu_usuario"
+          required
+        >
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Correo electrónico</label>
+        <input
+          type="email"
+          name="email"
+          class="form-control"
+          placeholder="correo@email.com"
+          required
+        >
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Contraseña</label>
+        <input
+          type="password"
+          name="password"
+          class="form-control"
+          required
+        >
+      </div>
+
+      <div class="mb-4">
+        <label class="form-label">Confirmar contraseña</label>
+        <input
+          type="password"
+          name="confirm_password"
+          class="form-control"
+          required
+        >
+      </div>
+
+      <button type="submit" class="btn btn-dark w-100">
+        Crear cuenta
+      </button>
+    </form>
+
+    <div class="text-center mt-4">
+      <span class="text-muted">¿Ya tienes cuenta?</span>
+      <a href="/login" class="fw-semibold">Inicia sesión</a>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,88 @@
+{% extends 'master.html' %}
+
+{% block content %}
+<div class="container my-5 " style="margin-top: 100px;">
+
+  <!-- HEADER / TITLE -->
+  <div class="mb-4">
+    <span class="badge bg-secondary-subtle text-secondary fw-semibold mb-2">
+      {{ event.category|default:"Categoría" }}
+    </span>
+
+    <h2 class="fw-bold mt-2">
+      {{ event.event_name|default:"¿Ocurrirá este evento?" }}
+    </h2>
+
+    <p class="text-muted mb-0">
+      Mercado cierra el {{ event.close_date|default:"12 Feb · 20:00" }}
+    </p>
+  </div>
+
+  <!-- MAIN CARD -->
+  <div class="card border-0 shadow-sm rounded-4">
+
+    <div class="card-body p-4 p-md-5">
+
+      <!-- VS / QUESTION -->
+      <div class="text-center mb-5">
+
+        <h1 class="fw-bold display-6 mb-3">
+          {{ event.first_name|default:"Equipo A" }}
+          <span class="text-muted fs-6 mx-3">VS</span>
+          {{ event.second_name|default:"Equipo B" }}
+        </h1>
+
+        <p class="text-muted col-md-8 mx-auto">
+          {{ event.description|default:"Descripción completa del evento. Aquí se explica claramente la condición del mercado, reglas y resultado esperado." }}
+        </p>
+
+      </div>
+
+      <!-- ACTIONS -->
+      <div class="row g-3">
+
+        <!-- YES / TEAM A -->
+        <div class="col-12 col-md-4">
+          <form method="post" action="#">
+            <button class="btn btn-outline-primary w-100 py-3 fw-semibold rounded-3">
+              Apostar {{ event.first_name|default:"Equipo A" }}
+            </button>
+          </form>
+        </div>
+
+        <!-- DRAW -->
+        <div class="col-12 col-md-4">
+          <form method="post" action="#">
+            <button class="btn btn-outline-dark w-100 py-3 fw-semibold rounded-3">
+              Empate
+            </button>
+          </form>
+        </div>
+
+        <!-- NO / TEAM B -->
+        <div class="col-12 col-md-4">
+          <form method="post" action="#">
+            <button class="btn btn-outline-success w-100 py-3 fw-semibold rounded-3">
+              Apostar {{ event.second_name|default:"Equipo B" }}
+            </button>
+          </form>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- FOOT INFO -->
+  <div class="mt-4 text-muted small">
+    <div class="d-flex flex-wrap gap-3">
+      <span>📅 Resolución automática</span>
+      <span>🔒 Mercado cerrado al vencer</span>
+      <span>⚖️ Reglas claras y públicas</span>
+    </div>
+  </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,132 @@
+<style>
+/* ================= HERO ================= */
+.hero-jeke{
+  margin-top: -20px;
+  background: linear-gradient(135deg, rgb(13, 13, 37), rgb(25, 25, 70));
+  height: 350px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: aliceblue;
+  font-family: Arial, Helvetica, sans-serif;
+  overflow: hidden;
+}
+
+/* CONTENIDO */
+.hero-jeke > div{
+  position: relative;
+  z-index: 2;
+}
+
+/* TITULO */
+.hero-jeke h1{
+  font-size: 56px;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+/* JEKE */
+.hero-jeke h1 span{
+  font-size: 72px;
+  background: linear-gradient(90deg, #00ff66, #ccff00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* TEXTO */
+.hero-jeke p{
+  font-size: 18px;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.5;
+  opacity: 0.9;
+}
+
+/* ================= BOTONES ================= */
+.hero-buttons{
+  margin-top: 28px;
+  display: flex;
+  justify-content: center;
+  gap: 22px;
+}
+
+/* BASE */
+.hero-buttons .btn{
+  padding: 12px 30px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 30px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+/* LOGIN */
+.btn-login{
+  background: transparent;
+  color: #00ff66;
+  border: 2px solid #00ff66;
+}
+
+.btn-login:hover{
+  background: #00ff66;
+  color: #0d0d25;
+  box-shadow: 0 0 15px rgba(0,255,102,0.6);
+}
+
+/* REGISTER */
+.btn-register{
+  background: linear-gradient(90deg, #00ff66, #ccff00);
+  color: #0d0d25;
+}
+
+.btn-register:hover{
+  transform: translateY(-3px);
+  box-shadow: 0 0 20px rgba(204,255,0,0.7);
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 768px){
+  .hero-jeke{
+    height: auto;
+    padding: 40px 20px;
+  }
+
+  .hero-jeke h1{
+    font-size: 42px;
+  }
+
+  .hero-jeke h1 span{
+    font-size: 56px;
+  }
+
+  .hero-buttons{
+    flex-direction: column;
+  }
+
+  .hero-buttons .btn{
+    width: 100%;
+    max-width: 280px;
+    margin: 0 auto;
+  }
+}
+</style>
+
+<div class="hero-jeke">
+  <div>
+    <h1><span>JEKE</span> Predicciones</h1>
+
+    <p>
+      Conviértete en un JEKE haciendo predicciones.
+      Ganar nunca fue tan fácil.
+    </p>
+
+    {% if not user.is_authenticated %}
+    <div class="hero-buttons">
+      <a href="{% url 'login' %}" class="btn btn-login">Iniciar sesión</a>
+      <a href="{% url 'register' %}" class="btn btn-register">Registrarse</a>
+    </div>
+    {% endif %}
+  </div>
+</div>

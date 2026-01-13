@@ -1,0 +1,182 @@
+
+<!-- ================= HEADER / NAVBAR ================= -->
+
+<style>
+  /* ================= NAVBAR JEKE ================= */
+.navbar{
+  backdrop-filter: blur(10px);
+  background: rgba(255,255,255,.92) !important;
+  border-bottom: 1px solid #eef0f3;
+}
+
+/* Brand */
+.navbar-brand{
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  color: #111827 !important;
+}
+
+/* Links */
+.navbar-nav .nav-link{
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151 !important;
+  position: relative;
+  padding: 6px 4px;
+}
+
+.navbar-nav .nav-link:hover{
+  color: #4338ca !important;
+}
+
+/* Active underline */
+.navbar-nav .nav-link::after{
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0;
+  height: 2px;
+  background: #4338ca;
+  transition: width .25s ease;
+}
+
+.navbar-nav .nav-link:hover::after{
+  width: 100%;
+}
+
+/* Dropdown */
+.dropdown-menu{
+  border-radius: 14px;
+  border: 1px solid #eef0f3;
+  box-shadow: 0 18px 40px rgba(0,0,0,.12);
+  padding: 8px;
+}
+
+.dropdown-item{
+  font-size: 14px;
+  border-radius: 10px;
+  padding: 8px 12px;
+}
+
+.dropdown-item:hover{
+  background: #eef2ff;
+  color: #4338ca;
+}
+
+/* Search */
+.navbar .form-control{
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  font-size: 13px;
+}
+
+.navbar .btn-outline-dark{
+  border-radius: 12px;
+  font-size: 13px;
+}
+
+/* User button */
+.navbar .btn-light{
+  border-radius: 14px;
+  background: #f9fafb;
+  border: 1px solid #eef0f3;
+}
+
+.navbar .btn-light:hover{
+  background: #eef2ff;
+}
+
+/* Mobile */
+.navbar-toggler{
+  border: none;
+}
+
+.navbar-toggler:focus{
+  box-shadow: none;
+}
+
+</style>
+<header>
+  <nav class="navbar navbar-expand-lg fixed-top ">
+    <div class="container">
+
+      <!-- BRAND -->
+      <a class="navbar-brand fw-bold text-dark" href="/">JEKE</a>
+
+      <!-- TOGGLER -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- NAV CONTENT -->
+      <div class="collapse navbar-collapse align-items-center" id="nav">
+
+        <!-- LEFT MENU -->
+        <ul class="navbar-nav me-auto gap-lg-3">
+          <li class="nav-item">
+            <a class="nav-link fw-medium text-dark" href="{% url 'events:event_list' %}">Eventos</a>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle fw-medium text-dark" data-bs-toggle="dropdown">
+              Categorías
+            </a>
+            <ul class="dropdown-menu">
+              {% for all_category in category %}
+                <li>
+                  <a class="dropdown-item"
+                    href=" {% url 'events:event_list' %}?category_item={{ all_category.category }}">
+                    {{ all_category.category }}
+                  </a>
+                </li>
+            {% endfor %}
+          </ul>
+
+          </li>
+          {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link fw-medium text-dark" href="{% url 'bets:making_bet' %}">my predictions</a>
+          </li>
+          {% endif %}
+        </ul>
+
+        <!-- SEARCH -->
+        <form class="d-flex align-items-center me-3" role="search" action="{% url 'events:event_list' %}">
+          {% csrf_token %}
+          <input class="form-control form-control-sm me-2" style="width: 150px!important;" name="search" type="search" placeholder="Buscar">
+          <button class="btn btn-outline-dark btn-sm" type="submit">Buscar</button>
+        </form>
+
+        <!-- USER -->
+       {% if user.is_authenticated %}
+      <div class="dropdown d-flex align-items-center">
+        <button class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown">
+          <i class="bi bi-person-circle fs-5"></i>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li>
+            <a class="dropdown-item" href="{% url 'profile' %}">
+              <i class="bi bi-person me-2"></i>{{ user.username }}
+            </a>
+          </li>
+          <li>
+            <form action="{% url 'logout' %}" method="post">
+              {% csrf_token %}
+              <button class="dropdown-item text-danger" type="submit">
+                <i class="bi bi-box-arrow-right me-2"></i> Cerrar sesión
+              </button>
+            </form>
+          </li>
+        </ul>
+      </div>
+      {% else %}
+      <a href="{% url 'login' %}" class="btn btn-light d-flex align-items-center">
+        <i class="bi bi-person-circle fs-5"></i>
+      </a>
+      {% endif %}
+      </div>
+    </div>
+  </nav>
+</header>
