@@ -1,0 +1,114 @@
+{% extends 'master.html' %}
+
+{% block extra_css %}
+<style>
+    :root {
+        --jeke-bg: #0b0d11;
+        --jeke-card: #161920;
+        --jeke-accent: #ccff00;
+        --jeke-success: #00ff88; /* Un verde más eléctrico */
+    }
+
+    .success-wrapper {
+        min-height: 70vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--jeke-bg);
+    }
+
+    .success-card {
+        background: var(--jeke-card);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 24px;
+        padding: 3rem;
+        text-align: center;
+        max-width: 500px;
+        width: 90%;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        animation: fadeInUp 0.6s ease-out;
+    }
+
+    /* Animación del Check */
+    .icon-box {
+        width: 80px;
+        height: 80px;
+        background: rgba(204, 255, 0, 0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem;
+        border: 2px solid var(--jeke-accent);
+    }
+
+    .icon-box i {
+        font-size: 2.5rem;
+        color: var(--jeke-accent);
+    }
+
+    .success-title {
+        font-weight: 800;
+        font-size: 2rem;
+        color: #fff;
+        margin-bottom: 0.5rem;
+    }
+
+    .success-text {
+        color: #94a3b8;
+        font-size: 1.1rem;
+        margin-bottom: 2rem;
+    }
+
+    .user-highlight {
+        color: var(--jeke-accent);
+        font-weight: 600;
+    }
+
+    .btn-return {
+        background: var(--jeke-accent);
+        color: #000;
+        border: none;
+        padding: 12px 30px;
+        border-radius: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .btn-return:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(204, 255, 0, 0.3);
+        color: #000;
+    }
+
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="success-wrapper">
+    <div class="success-card">
+        <div class="icon-box">
+            <i class="fas fa-check"></i>
+            </div>
+
+        <h1 class="success-title">¡Pago Exitoso!</h1>
+
+        <p class="success-text">
+            Gracias por tu compra, <span class="user-highlight">{{ user.username }}</span>.
+            Tu transacción se ha procesado correctamente.
+        </p>
+
+        <div class="mt-4">
+            <a href="/" class="btn-return">Volver al Inicio</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

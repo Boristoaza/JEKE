@@ -1,0 +1,128 @@
+        /* ================= JEKE NAVBAR CUSTOM ================= */
+        .navbar {
+            background: var(--jeke-card) !important;
+            border-bottom: 2px solid rgba(204, 255, 0, 0.1);
+            padding: 0.8rem 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Logo JEKE con estilo deportivo */
+        .navbar-brand {
+            font-family: 'Kanit', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            color: var(--jeke-accent) !important;
+            text-transform: uppercase;
+            text-shadow: 0 0 15px rgba(204, 255, 0, 0.3);
+        }
+
+        /* Links de Navegación */
+        .nav-link {
+            color: var(--jeke-text) !important;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 0.5rem 1rem !important;
+            transition: 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--jeke-accent) !important;
+            transform: translateY(-2px);
+        }
+
+        /* Badge de "LIVE" parpadeante */
+        .live-indicator {
+            background: #ff4d4d;
+            color: white;
+            font-size: 0.65rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-left: 5px;
+            vertical-align: middle;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        /* Wallet / Balance Section */
+        .wallet-display {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 5px 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .balance-amount {
+            color: var(--jeke-accent);
+            font-weight: 800;
+            font-family: 'Kanit', sans-serif;
+        }
+
+        /* Botón de "Recharge" / Depósito */
+        .btn-deposit {
+            background: var(--jeke-accent);
+            color: #000 !important;
+            font-weight: 800;
+            border-radius: 10px;
+            padding: 8px 20px;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            border: none;
+            transition: 0.3s;
+        }
+
+        .btn-deposit:hover {
+            background: #b3df00;
+            box-shadow: 0 0 20px rgba(204, 255, 0, 0.4);
+            transform: scale(1.05);
+        }
+
+        /* User Avatar */
+        .user-profile {
+            width: 40px;
+            height: 40px;
+            background: #2d323a;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Dropdown custom */
+        .dropdown-menu {
+            background: var(--jeke-card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            margin-top: 15px;
+        }
+
+        .dropdown-item {
+            color: white;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+        }
+
+        .dropdown-item:hover {
+            background: rgba(204, 255, 0, 0.1);
+            color: var(--jeke-accent);
+        }

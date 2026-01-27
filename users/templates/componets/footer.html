@@ -1,106 +1,70 @@
-<style>
+<footer class="jeke-footer">
+    <div class="container">
+        <div class="row gy-4">
 
-.footer-jeke{
-  background: linear-gradient(135deg, rgb(13, 13, 37), rgb(25, 25, 70));
-  padding: 60px 0 25px;
-  border-top: 1px solid rgba(255,255,255,.08);
-  margin-bottom: -10%;
-}
+            <div class="col-lg-4 col-md-6">
+                <a class="footer-logo" href="#">JEKE</a>
+                <p class="footer-description mt-3">
+                    La plataforma líder en apuestas deportivas y casino online. Seguridad garantizada, pagos instantáneos y las mejores cuotas del mercado.
+                </p>
+                <div class="footer-socials d-flex gap-3">
+                    <a href="#"><i class="bi bi-facebook"></i></a>
+                    <a href="#"><i class="bi bi-twitter-x"></i></a>
+                    <a href="#"><i class="bi bi-instagram"></i></a>
+                    <a href="#"><i class="bi bi-telegram"></i></a>
+                </div>
+            </div>
 
-/* Logo */
-.footer-logo{
-  font-size: 22px;
-  font-weight: 800;
-  letter-spacing: 1px;
-  color: #ffffff;
-  margin-bottom: 10px;
-}
+            <div class="col-lg-2 col-md-6 col-6">
+                <h5 class="footer-title">Plataforma</h5>
+                <ul class="list-unstyled footer-links">
+                    <li><a href="#">Deportes</a></li>
+                    <li><a href="#">Casino</a></li>
+                    <li><a href="#">En Vivo</a></li>
+                    <li><a href="#">Promociones</a></li>
+                </ul>
+            </div>
 
-/* Descripción */
-.footer-desc{
-  font-size: 14px;
-  color: rgba(255,255,255,.65);
-  line-height: 1.6;
-}
+            <div class="col-lg-2 col-md-6 col-6">
+                <h5 class="footer-title">Soporte</h5>
+                <ul class="list-unstyled footer-links">
+                    <li><a href="#">Reglas</a></li>
+                    <li><a href="#">Términos</a></li>
+                    <li><a href="#">Privacidad</a></li>
+                    <li><a href="#">Contacto</a></li>
+                </ul>
+            </div>
 
-/* Títulos */
-.footer-title{
-  font-size: 14px;
-  font-weight: 700;
-  color: #ffffff;
-  margin-bottom: 12px;
-}
+            <div class="col-lg-4 col-md-6">
+                <h5 class="footer-title">Únete a la Élite</h5>
+                <p class="small text-muted">Recibe cuotas exclusivas y bonos semanales.</p>
+                <form class="footer-newsletter">
+                    <div class="input-group">
+                        <input type="email" class="form-control" placeholder="Tu email...">
+                        <button class="btn btn-deposit" type="button">Unirme</button>
+                    </div>
+                </form>
+            </div>
+        </div>
 
-/* Links */
-.footer-links{
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
+        <hr class="footer-divider">
 
-.footer-links li{
-  margin-bottom: 8px;
-}
+        <div class="row align-items-center">
+            <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                <div class="payment-icons">
+                    <i class="bi bi-credit-card-2-front" title="Visa/Mastercard"></i>
+                    <i class="bi bi-currency-bitcoin" title="Bitcoin"></i>
+                    <i class="bi bi-bank" title="Transferencia"></i>
+                    <i class="bi bi-paypal" title="PayPal"></i>
+                </div>
+            </div>
+            <div class="col-md-6 text-center text-md-end">
+                <span class="juego-responsable">+18 | Juega con Responsabilidad</span>
+            </div>
+        </div>
 
-.footer-links a{
-  font-size: 14px;
-  color: rgba(255,255,255,.6);
-  text-decoration: none;
-  transition: color .2s ease, transform .2s ease;
-}
-
-.footer-links a:hover{
-  color: #a5b4fc; /* violeta suave */
-  transform: translateX(3px);
-}
-
-/* Bottom */
-.footer-bottom{
-  margin-top: 40px;
-  padding-top: 18px;
-  border-top: 1px solid rgba(255,255,255,.08);
-  text-align: center;
-  font-size: 13px;
-  color: rgba(255,255,255,.5);
-}
-
-
-</style>
-
-
-<footer class="footer-jeke">
-  <div class="container">
-    <div class="row gy-4 align-items-start">
-
-      <div class="col-md-4">
-        <h5 class="footer-logo">JEKE</h5>
-        <p class="footer-desc">
-          Apuestas por eventos reales.<br>
-          Juego limpio, simple y transparente.
-        </p>
-      </div>
-
-      <div class="col-md-4">
-        <h6 class="footer-title">Explorar</h6>
-        <ul class="footer-links">
-          <li><a href="#">Eventos</a></li>
-          <li><a href="#">Categorías</a></li>
-          <li><a href="#">Resultados</a></li>
-        </ul>
-      </div>
-
-      <div class="col-md-4">
-        <h6 class="footer-title">Legal</h6>
-        <ul class="footer-links">
-          <li><a href="#">Términos y condiciones</a></li>
-          <li><a href="#">Privacidad</a></li>
-        </ul>
-      </div>
-
+        <div class="footer-bottom text-center">
+            <p>&copy; 2026 JEKE. Todos los derechos reservados. <br> <small class="text-muted">Diseñado para ganadores.</small></p>
+        </div>
     </div>
-
-    <div class="footer-bottom">
-      © {{ year|default:"2026" }} JEKE · Todos los derechos reservados
-    </div>
-  </div>
 </footer>

@@ -1,182 +1,119 @@
-
-<!-- ================= HEADER / NAVBAR ================= -->
-
-<style>
-  /* ================= NAVBAR JEKE ================= */
-.navbar{
-  backdrop-filter: blur(10px);
-  background: rgba(255,255,255,.92) !important;
-  border-bottom: 1px solid #eef0f3;
-}
-
-/* Brand */
-.navbar-brand{
-  font-size: 22px;
-  font-weight: 900;
-  letter-spacing: 1px;
-  color: #111827 !important;
-}
-
-/* Links */
-.navbar-nav .nav-link{
-  font-size: 14px;
-  font-weight: 600;
-  color: #374151 !important;
-  position: relative;
-  padding: 6px 4px;
-}
-
-.navbar-nav .nav-link:hover{
-  color: #4338ca !important;
-}
-
-/* Active underline */
-.navbar-nav .nav-link::after{
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -4px;
-  width: 0;
-  height: 2px;
-  background: #4338ca;
-  transition: width .25s ease;
-}
-
-.navbar-nav .nav-link:hover::after{
-  width: 100%;
-}
-
-/* Dropdown */
-.dropdown-menu{
-  border-radius: 14px;
-  border: 1px solid #eef0f3;
-  box-shadow: 0 18px 40px rgba(0,0,0,.12);
-  padding: 8px;
-}
-
-.dropdown-item{
-  font-size: 14px;
-  border-radius: 10px;
-  padding: 8px 12px;
-}
-
-.dropdown-item:hover{
-  background: #eef2ff;
-  color: #4338ca;
-}
-
-/* Search */
-.navbar .form-control{
-  border-radius: 12px;
-  border: 1px solid #e5e7eb;
-  font-size: 13px;
-}
-
-.navbar .btn-outline-dark{
-  border-radius: 12px;
-  font-size: 13px;
-}
-
-/* User button */
-.navbar .btn-light{
-  border-radius: 14px;
-  background: #f9fafb;
-  border: 1px solid #eef0f3;
-}
-
-.navbar .btn-light:hover{
-  background: #eef2ff;
-}
-
-/* Mobile */
-.navbar-toggler{
-  border: none;
-}
-
-.navbar-toggler:focus{
-  box-shadow: none;
-}
-
-</style>
 <header>
-  <nav class="navbar navbar-expand-lg fixed-top ">
-    <div class="container">
+        <nav class="navbar navbar-expand-lg fixed-top">
+            <div class="container">
 
-      <!-- BRAND -->
-      <a class="navbar-brand fw-bold text-dark" href="/">JEKE</a>
+                <a class="navbar-brand" href="/">JEKE</a>
 
-      <!-- TOGGLER -->
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+                <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#jekeNav">
+                    <i class="bi bi-list text-white fs-1"></i>
+                </button>
 
-      <!-- NAV CONTENT -->
-      <div class="collapse navbar-collapse align-items-center" id="nav">
+                <div class="collapse navbar-collapse" id="jekeNav">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'events:event_list' %}">Eventos</a>
+                        </li>
 
-        <!-- LEFT MENU -->
-        <ul class="navbar-nav me-auto gap-lg-3">
-          <li class="nav-item">
-            <a class="nav-link fw-medium text-dark" href="{% url 'events:event_list' %}">Eventos</a>
-          </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'bets:making_bet' %}">Historial</a>
+                        </li>
 
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle fw-medium text-dark" data-bs-toggle="dropdown">
-              Categorías
-            </a>
-            <ul class="dropdown-menu">
-              {% for all_category in category %}
-                <li>
-                  <a class="dropdown-item"
-                    href=" {% url 'events:event_list' %}?category_item={{ all_category.category }}">
-                    {{ all_category.category }}
-                  </a>
-                </li>
-            {% endfor %}
-          </ul>
+                        <li class="nav-item">
+                            <div class="dropdown">
+                                <div data-bs-toggle="dropdown">
+                                    <a class="nav-link">Categorys</a>
+                                </div>
+                                <ul class="dropdown-menu dropdown-menu-end shadow-lg">
+                                    {% for all_category in category %}
+                                    <li>
+                                        <a class="dropdown-item"
+                                            href=" {% url 'events:event_list' %}?category_item={{ all_category.category }}">
+                                            {{ all_category.category }}
+                                        </a>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
 
-          </li>
-          {% if user.is_authenticated %}
-          <li class="nav-item">
-            <a class="nav-link fw-medium text-dark" href="{% url 'bets:making_bet' %}">my predictions</a>
-          </li>
-          {% endif %}
-        </ul>
+                    <div class="container col-4">
+                        <form action="{% url 'events:event_list' %}" method="get">
+                            <div class="input-group">
+                                <input type="text" name="search" class="form-control search" placeholder="Buscar..."
+                                    value="{{ search_input|default:'' }}">
+                                <button class="btn btn-deposit" type="submit">
+                                    <i class="bi bi-search"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
 
-        <!-- SEARCH -->
-        <form class="d-flex align-items-center me-3" role="search" action="{% url 'events:event_list' %}">
-          {% csrf_token %}
-          <input class="form-control form-control-sm me-2" style="width: 150px!important;" name="search" type="search" placeholder="Buscar">
-          <button class="btn btn-outline-dark btn-sm" type="submit">Buscar</button>
-        </form>
 
-        <!-- USER -->
-       {% if user.is_authenticated %}
-      <div class="dropdown d-flex align-items-center">
-        <button class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown">
-          <i class="bi bi-person-circle fs-5"></i>
-        </button>
-        <ul class="dropdown-menu dropdown-menu-end">
-          <li>
-            <a class="dropdown-item" href="{% url 'profile' %}">
-              <i class="bi bi-person me-2"></i>{{ user.username }}
-            </a>
-          </li>
-          <li>
-            <form action="{% url 'logout' %}" method="post">
-              {% csrf_token %}
-              <button class="dropdown-item text-danger" type="submit">
-                <i class="bi bi-box-arrow-right me-2"></i> Cerrar sesión
-              </button>
-            </form>
-          </li>
-        </ul>
-      </div>
-      {% else %}
-      <a href="{% url 'login' %}" class="btn btn-light d-flex align-items-center">
-        <i class="bi bi-person-circle fs-5"></i>
-      </a>
-      {% endif %}
-      </div>
-    </div>
-  </nav>
-</header>
+                    <div class="d-flex align-items-center gap-3">
+                        {% if user.is_authenticated %}
+                        <div class="wallet-display d-none d-md-flex">
+                            <i class="bi bi-wallet2 text-muted"></i>
+                            <span class="balance-amount">$1,250.50</span>
+                        </div>
+                        {% endif %}
+
+
+                        {% if user.is_authenticated %}
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle btn-deposit" type="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                Recargar
+                            </button>
+
+                            <ul class="dropdown-menu p-3">
+                                <form action="{% url 'wallet:wallet_pay' %}" method="post">
+                                    {% csrf_token %}
+
+                                    <input class="form-control mb-2" type="number" name="amount" min="10" step="0.01"
+                                        placeholder="míni $10" required>
+
+                                    <button class="btn btn-deposit w-100" type="submit">
+                                         Ir a pagar
+                                    </button>
+                                </form>
+                            </ul>
+                        </div>
+                        {% endif %}
+
+
+                        {% if user.is_authenticated %}
+                        <div class="dropdown">
+                            <div class="user-profile" data-bs-toggle="dropdown">
+                                <i class="bi bi-person text-white"></i>
+                            </div>
+                            <ul class="dropdown-menu dropdown-menu-end shadow-lg">
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'profile' %}">
+                                        <i class="bi bi-person me-2"></i>
+                                        {{ user.username }}
+                                    </a>
+                                </li>
+                                <li>
+                                    <form action="{% url 'logout' %}" method="post">
+                                        {% csrf_token %}
+                                        <button class="dropdown-item text-danger" type="submit">
+                                            <i class="bi bi-box-arrow-right me-2"></i>
+                                            Cerrar sesión
+                                        </button>
+                                    </form>
+                                </li>
+                            </ul>
+                            {% else %}
+                            <a href="{% url 'login' %}" class="user-profile">
+                                <i class="bi bi-person text-white"></i>
+                            </a>
+                            {% endif %}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>

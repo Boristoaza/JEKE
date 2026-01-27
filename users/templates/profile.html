@@ -1,326 +1,314 @@
 {% extends "master.html" %}
 
 {% block title %}
-  {{ user.username }}
+  Perfil | {{ user.username }}
 {% endblock %}
 
 {% block extra_css %}
 <style>
-  body {
-    background-color: #f5f6f8;
-    min-height: 100vh;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    color: #111827;
-  }
+/* ================= REFINES VISUALES ================= */
 
-  /* CARD BASE */
-  .card-jeke {
-    background-color: #ffffff;
-    border: 1px solid #e5e7eb;
-    border-radius: 16px;
-    box-shadow: 0 4px 12px rgba(0,0,0,.06);
-    padding: 1.5rem;
-  }
+/* Glow general suave */
+.card-jeke {
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.45),
+        inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
 
-  /* HEADER */
-  .profile-header {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-  }
+/* Separación elegante entre secciones */
+.card-jeke + .card-jeke {
+    margin-top: 2rem;
+}
 
-  .avatar {
-    width: 96px;
-    height: 96px;
+/* Avatar más pro */
+.avatar {
+    position: relative;
+}
+
+.avatar::after {
+    content: "";
+    position: absolute;
+    inset: -6px;
     border-radius: 50%;
-    background-color: #f3f4f6;
-    border: 2px solid #d1d5db;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2.2rem;
-    color: #6b7280;
-  }
+    background: radial-gradient(
+        circle,
+        rgba(204, 255, 0, 0.25),
+        transparent 65%
+    );
+    z-index: -1;
+}
 
-  .username {
-    font-weight: 700;
-  }
+/* Username más fuerte */
+.username {
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
+}
 
-  .handle {
-    font-size: .85rem;
-    color: #6b7280;
-  }
+/* Stats más premium */
+.stat {
+    box-shadow:
+        0 15px 40px rgba(0, 0, 0, 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
 
-  /* STATS */
-  .stat {
-    background-color: #f9fafb;
-    border: 1px solid #e5e7eb;
-    border-radius: 12px;
-    padding: 1rem;
-    text-align: center;
-  }
+.stat:hover h5 {
+    text-shadow: 0 0 18px rgba(204, 255, 0, 0.5);
+}
 
-  .stat h5 {
-    font-weight: 700;
-    margin-bottom: .15rem;
-  }
+/* Mejora visual de badges */
+.badge-win,
+.badge-loss {
+    letter-spacing: 1px;
+    backdrop-filter: blur(6px);
+}
 
-  .stat span {
-    font-size: .8rem;
-    color: #6b7280;
-  }
+/* Lista de actividad más limpia */
+.list-group-item {
+    transition: background 0.25s ease, transform 0.25s ease;
+}
 
-  /* BUTTONS */
-  .btn-jeke {
-    background-color: #111827;
-    color: #ffffff;
-    border: none;
+.list-group-item:hover {
+    background: rgba(255, 255, 255, 0.03) !important;
+    transform: translateX(6px);
+}
+
+/* Botones más táctiles */
+.btn-jeke,
+.btn-outline-jeke {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+}
+
+.btn-jeke:active,
+.btn-outline-jeke:active {
+    transform: scale(0.97);
+}
+
+/* Modal más elegante */
+.modal-content {
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7);
+}
+
+/* Inputs más suaves */
+.form-control::placeholder {
+    color: rgba(255, 255, 255, 0.35);
+}
+
+/* Scrollbar (desktop) */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(204, 255, 0, 0.25);
     border-radius: 10px;
-    font-weight: 600;
-    font-size: .9rem;
-  }
+}
 
-  .btn-jeke:hover {
-    background-color: #1f2937;
-  }
+::-webkit-scrollbar-track {
+    background: transparent;
+}
 
-  .btn-outline-jeke {
-    border: 1px solid #d1d5db;
-    background-color: #ffffff;
-    border-radius: 10px;
-    font-size: .9rem;
-  }
 
-  /* LIST */
-  .list-group-item {
-    border: none;
-    border-bottom: 1px solid #e5e7eb;
-    font-size: .9rem;
-  }
-
-  .badge-win {
-    background-color: #16a34a;
-  }
-
-  .badge-loss {
-    background-color: #dc2626;
-  }
-
-  /* MODAL */
-  .modal-content {
-    border-radius: 16px;
-    border: 1px solid #e5e7eb;
-  }
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="container my-5 ">
+<div class="container my-5">
 
-  <!-- PERFIL -->
-  <div class="card-jeke mb-4 " style="margin-top: 7%;">
-    <div class="profile-header ">
+    <div class="card-jeke mb-4" style="margin-top: 80px;">
+        <div class="row align-items-center">
+            <div class="col-md-auto text-center">
+                <div class="avatar mx-auto d-flex align-items-center justify-content-center">
+                    {% if image %}
+                        <img src="{{ image.image.url }}" alt="Perfil" class="img-fluid w-50 h-50 object-fit-cover rounded-pill ">
+                    {% else %}
+                        <i class="bi bi-person-fill fs-1 text-muted"></i>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md text-center text-md-start mt-3 mt-md-0">
+                <h4 class="username mb-0">{{ user.username }}</h4>
 
-    <div class="avatar rounded-circle overflow-hidden d-flex align-items-center justify-content-center">
-      {% if image %}
-      <img src="{{ image.image.url }}" alt="Perfil" class="img-fluid w-100 h-100 object-fit-cover">
-      {% else %}
-      <i class="bi bi-person fs-1 text-muted"></i>
-      {% endif %}
-    </div>
-
-
-      <div class="flex-grow-1">
-        <h4 class="username mb-0">{{ user.username }}</h4>
-        <div class="handle">@{{ user.username }}</div>
-      </div>
-
-      <div class="d-flex gap-2">
-
-        <button type="button"
-        class="btn btn-outline-jeke"
-        data-bs-toggle="modal"
-        data-bs-target="#editImageModal">
-  Editar
-</button>
-
-
-        <form method="post" action="{% url 'logout' %}">
-          {% csrf_token %}
-          <button class="btn btn-outline-jeke"
-                  onclick="return confirm('¿Cerrar sesión?')">
-            Salir
-          </button>
-        </form>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- STATS -->
-  <div class="row g-3 mb-4">
-    <div class="col-6 col-md-3">
-      <div class="stat">
-        <h5>128</h5>
-        <span>Apuestas</span>
-      </div>
-    </div>
-    <div class="col-6 col-md-3">
-      <div class="stat">
-        <h5>72%</h5>
-        <span>Win Rate</span>
-      </div>
-    </div>
-    <div class="col-6 col-md-3">
-      <div class="stat">
-        <h5>$1,420</h5>
-        <span>Ganancia</span>
-      </div>
-    </div>
-    <div class="col-6 col-md-3">
-      <div class="stat">
-        <h5>64%</h5>
-        <span>ROI</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- CONTENIDO -->
-  <div class="row g-4">
-
-    <!-- INFO -->
-    <div class="col-md-4">
-      <div class="card-jeke">
-        <h6 class="fw-semibold mb-3">Información</h6>
-
-        <p class="mb-2"><strong>Email</strong><br>{{ user.email|default:"—" }}</p>
-        <p class="mb-2"><strong>Miembro desde</strong><br>{{ user.date_joined|date:"F Y" }}</p>
-        <p class="mb-0"><strong>Rol</strong><br>
-          {% if user.is_staff %}Administrador{% else %}Usuario{% endif %}
-        </p>
-      </div>
-    </div>
-
-    <!-- HISTORIAL -->
-    <div class="col-md-8">
-      <div class="card-jeke">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-          <h6 class="fw-semibold mb-0">Últimas apuestas</h6>
-          {% if user.is_authenticated and user.is_staff %}
-          <button class="btn btn-jeke btn-sm"
-                  data-bs-toggle="modal"
-                  data-bs-target="#crearEvento">
-            Crear evento
-          </button>
+                <div class="handle">@{{ user.username }} <span class="ms-2 badge bg-dark text-muted fw-normal" style="color:white">Elite Member</span></div>
+            </div>
+            <div class="col-md-auto text-center text-md-end mt-4 mt-md-0">
+                <div class="d-flex gap-2 justify-content-center">
+                    <button type="button" class="btn btn-outline-jeke" data-bs-toggle="modal" data-bs-target="#editImageModal">
+                        <i class="bi bi-camera me-2"></i>Editar
+                    </button>
+                    <form method="post" action="{% url 'logout' %}" class="d-inline">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-outline-jeke text-danger border-danger" onclick="return confirm('¿Cerrar sesión?')">
+                            <i class="bi bi-power"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
         </div>
-        {% endif %}
-
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item d-flex justify-content-between">
-            ¿Barcelona gana el clásico?
-            <span class="badge badge-win">Ganada</span>
-          </li>
-          <li class="list-group-item d-flex justify-content-between">
-            ¿GTA 6 se retrasa?
-            <span class="badge badge-loss">Perdida</span>
-          </li>
-          <li class="list-group-item d-flex justify-content-between">
-            ¿Bitcoin supera $100k?
-            <span class="badge badge-win">Ganada</span>
-          </li>
-        </ul>
-      </div>
     </div>
 
-  </div>
+    <div class="row g-3 mb-4">
+        <div class="col-6 col-md-3">
+            <div class="stat">
+                <h5>128</h5>
+                <span>Apuestas</span>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="stat">
+                <h5>72%</h5>
+                <span>Win Rate</span>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="stat">
+                <h5>$1,420</h5>
+                <span>Ganancia</span>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="stat">
+                <h5>64%</h5>
+                <span>ROI</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card-jeke h-100">
+                <h6 class="text-uppercase small fw-bold text-muted mb-4">Cuenta</h6>
+
+                <div class="mb-4">
+                    <label class="d-block small text-muted mb-1">Email</label>
+                    <a href="mailto:{{ user.email }}" class="fw-bold">{{ user.email|default:"No vinculado" }}</a>
+                </div>
+
+                <div class="mb-4">
+                    <label class="d-block small text-muted mb-1">Miembro desde</label>
+                    <span class="fw-bold">{{ user.date_joined|date:"F Y" }}</span>
+                </div>
+
+                <div class="mb-4">
+                    <label class="d-block small text-muted mb-1">Estatus</label>
+                    <span class="badge {% if user.is_staff %}bg-warning text-dark{% else %}bg-primary{% endif %} px-3 rounded-pill">
+                        {% if user.is_staff %}Admin{% else %}Usuario VIP{% endif %}
+                    </span>
+                </div>
+
+                <hr class="opacity-10">
+
+                <div class="d-grid gap-2">
+                    <a href="#" class="jeke-link"><i class="bi bi-shield-lock me-2"></i>Seguridad</a>
+                    <a href="#" class="jeke-link"><i class="bi bi-question-circle me-2"></i>Soporte técnico</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="card-jeke h-100">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h6 class="text-uppercase small fw-bold text-muted mb-0">Última Actividad</h6>
+                    {% if user.is_authenticated and user.is_staff %}
+                    <button class="btn btn-jeke btn-sm" data-bs-toggle="modal" data-bs-target="#crearEvento">
+                        Crear Evento
+                    </button>
+                    {% endif %}
+                </div>
+
+                <div class="list-group list-group-flush">
+                    <a href="#" class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <div class="fw-bold">Barcelona vs Real Madrid</div>
+                            <small class="text-muted">Fútbol • Ganador del partido</small>
+                        </div>
+                        <span class="badge-win">GANADA</span>
+                    </a>
+                    <a href="#" class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <div class="fw-bold">GTA VI Delay Announcement</div>
+                            <small class="text-muted">Especiales • Fecha de salida</small>
+                        </div>
+                        <span class="badge-loss">PERDIDA</span>
+                    </a>
+                    <a href="#" class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <div class="fw-bold">Bitcoin Price Action $100k</div>
+                            <small class="text-muted">Crypto • Hito de precio</small>
+                        </div>
+                        <span class="badge-win">GANADA</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
-{% if user.is_authenticated and user.is_staff %}
-<!-- MODAL CREAR EVENTO -->
-  <div class="modal fade" id="crearEvento" tabindex="-1">
+{% if user.is_staff %}
+<div class="modal fade" id="crearEvento" tabindex="-1">
     <div class="modal-dialog modal-lg modal-dialog-centered">
-      <div class="modal-content p-3">
-
-        <form method="post">
-          {% csrf_token %}
-
-          <div class="modal-header">
-            <h5 class="modal-title fw-semibold">Crear evento</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-          </div>
-
-          <div class="modal-body">
-            <div class="mb-3">
-              <label class="form-label">Nombre del evento</label>
-              <input type="text" class="form-control" name="event_name" required>
-            </div>
-
-            <div class="mb-3">
-              <label class="form-label">Categoría</label>
-              <input type="text" class="form-control" name="category" required>
-            </div>
-
-            <div class="row">
-              <div class="col-md-6 mb-3">
-                <label class="form-label">Participante 1</label>
-                <input type="text" class="form-control" name="first_name" required>
-              </div>
-              <div class="col-md-6 mb-3">
-                <label class="form-label">Participante 2</label>
-                <input type="text" class="form-control" name="second_name" required>
-              </div>
-            </div>
-
-            <div class="mb-3">
-              <label class="form-label">Descripción</label>
-              <textarea class="form-control" rows="3" name="description"></textarea>
-            </div>
-
-            <div class="mb-3">
-              <label class="form-label">Cierre de apuestas</label>
-              <input type="datetime-local" class="form-control" name="close_date">
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button class="btn btn-jeke w-100">
-              Crear evento
-            </button>
-          </div>
-        </form>
-
-      </div>
-    </div>
-  </div>
-  {% endif %}
-
-  <div class="modal fade" id="editImageModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-
-      <div class="modal-header">
-        <h5 class="modal-title">Editar imagen</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-
-      <form method="post" enctype="multipart/form-data">
-        <div class="modal-body">
-          {% csrf_token %}
-          {{ form.as_p }}
+        <div class="modal-content">
+            <form method="post">
+                {% csrf_token %}
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold">Nuevo Evento Deportivo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label small text-muted">Nombre del evento</label>
+                            <input type="text" class="form-control" name="event_name" required placeholder="Ej: Champions League">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label small text-muted">Categoría</label>
+                            <input type="text" class="form-control" name="category" required placeholder="Ej: Fútbol">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label small text-muted">Equipo Local</label>
+                            <input type="text" class="form-control" name="first_name" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label small text-muted">Equipo Visitante</label>
+                            <input type="text" class="form-control" name="second_name" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small text-muted">Cierre de Apuestas</label>
+                        <input type="datetime-local" class="form-control" name="close_date">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-jeke w-100">Publicar Evento</button>
+                </div>
+            </form>
         </div>
-
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-            Cancelar
-          </button>
-          <button type="submit" class="btn btn-primary">
-            Guardar cambios
-          </button>
-        </div>
-      </form>
-
     </div>
-  </div>
 </div>
+{% endif %}
 
+<div class="modal fade" id="editImageModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold">Actualizar Foto</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="post" enctype="multipart/form-data">
+                <div class="modal-body p-4 text-center">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        {{ form.image }}
+                    </div>
+                    <p class="small text-muted">Formatos aceptados: JPG, PNG. Máximo 2MB.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-jeke btn-sm" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-jeke btn-sm">Guardar Imagen</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 {% endblock %}

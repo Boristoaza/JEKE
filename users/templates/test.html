@@ -1,0 +1,175 @@
+{% extends 'master.html' %}
+
+{% block extra_css %}
+<style>
+:root {
+    --jeke-bg: #0b0d11;       /* Fondo más profundo */
+    --jeke-card: #161920;     /* Color de tarjeta */
+    --jeke-accent: #ccff00;   /* Verde neón icónico */
+    --jeke-text: #ffffff;
+    --jeke-muted: #94a3b8;
+    --jeke-border: rgba(255, 255, 255, 0.05);
+}
+
+.jeke-detail-wrapper {
+    background-color: var(--jeke-bg);
+    min-height: 80vh;
+    padding: 4rem 10%; /* Espaciado lateral fluido en lugar de 'left: 100px' */
+    color: var(--jeke-text);
+    font-family: 'Inter', sans-serif;
+}
+
+/* Header Section */
+.jeke-header {
+    margin-bottom: 2.5rem;
+}
+
+.jeke-category-badge {
+    color: var(--jeke-accent);
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.jeke-title {
+    font-size: clamp(2rem, 5vw, 3.5rem); /* Tamaño fluido según pantalla */
+    font-weight: 800;
+    line-height: 1.1;
+    margin: 0;
+}
+
+/* Match Visualizer */
+.jeke-vs-container {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    font-size: clamp(1.2rem, 3vw, 2rem);
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.jeke-vs-tag {
+    background: var(--jeke-accent);
+    color: #000;
+    padding: 2px 10px;
+    border-radius: 4px;
+    font-style: italic;
+    font-size: 0.9rem;
+}
+
+/* Info & Meta */
+.jeke-meta {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    color: var(--jeke-muted);
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.jeke-description {
+    max-width: 700px;
+    line-height: 1.7;
+    color: #cbd5e1;
+    font-size: 1.1rem;
+    border-left: 3px solid var(--jeke-accent);
+    padding-left: 20px;
+    margin-bottom: 3rem;
+}
+
+/* Betting/Action Buttons */
+.jeke-actions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    max-width: 800px;
+}
+
+.jeke-btn {
+    background: var(--jeke-card);
+    border: 1px solid var(--jeke-border);
+    color: var(--jeke-text);
+    padding: 1.2rem;
+    border-radius: 16px;
+    font-weight: 700;
+    text-align: center;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.jeke-btn .btn-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    color: var(--jeke-muted);
+}
+
+.jeke-btn:hover {
+    border-color: var(--jeke-accent);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(204, 255, 0, 0.15);
+}
+
+.jeke-btn:hover .btn-label {
+    color: var(--jeke-accent);
+}
+
+/* Responsive fix para móviles */
+@media (max-width: 768px) {
+    .jeke-detail-wrapper { padding: 2rem 5%; }
+    .jeke-vs-container { flex-direction: column; align-items: flex-start; }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="jeke-detail-wrapper">
+
+    <header class="jeke-header">
+        <span class="jeke-category-badge">{{ event.category }}</span>
+        <h1 class="jeke-title">{{ event.event_name }}</h1>
+    </header>
+
+    <div class="jeke-body">
+
+        <div class="jeke-vs-container">
+            <span>{{ event.first_name }}</span>
+            <span class="jeke-vs-tag">VS</span>
+            <span>{{ event.second_name }}</span>
+        </div>
+
+        <div class="jeke-meta">
+            <span>📅 {{ event.close_date|date:"d M, Y" }}</span>
+            <span>⏰ {{ event.close_date|date:"H:i" }}</span>
+        </div>
+
+        <div class="jeke-description">
+            {{ event.description }}
+        </div>
+
+        <div class="jeke-actions-grid">
+            <button class="jeke-btn">
+                <span class="btn-label">Votar por</span>
+                {{ event.first_name }}
+            </button>
+
+            <button class="jeke-btn">
+                <span class="btn-label">Opción</span>
+                Empate
+            </button>
+
+            <button class="jeke-btn">
+                <span class="btn-label">Votar por</span>
+                {{ event.second_name }}
+            </button>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

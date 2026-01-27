@@ -2,66 +2,173 @@
 
 {% block extra_css %}
 <style>
-  body {
-    background-color: white;
-  }
+    /* FONTO OSCURO PROFUNDO */
+    body {
+        background-color: #0b0d11;
+        color: #ffffff;
+        font-family: 'Inter', sans-serif;
+    }
+
+    /* CARD DE CRISTAL (GLASSMORPISM) */
+    .login-card {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 30px;
+        padding: 3rem;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+
+    /* LOGO Y TÍTULOS */
+    .brand-title {
+        font-family: 'Kanit', sans-serif;
+        font-weight: 800;
+        font-size: 2.5rem;
+        color: #ccff00; /* Verde Neón */
+        letter-spacing: -1px;
+        text-shadow: 0 0 20px rgba(204, 255, 0, 0.3);
+    }
+
+    .login-subtitle {
+        color: #94a3b8;
+        font-size: 0.9rem;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+    }
+
+    /* INPUTS ESTILO DARK */
+    .form-label {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #94a3b8;
+        margin-left: 5px;
+    }
+
+    .form-control {
+        background: rgba(255, 255, 255, 0.05) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        color: #ffffff !important;
+        border-radius: 12px;
+        padding: 12px 15px;
+        transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+        background: rgba(255, 255, 255, 0.08) !important;
+        border-color: #ccff00 !important;
+        box-shadow: 0 0 15px rgba(204, 255, 0, 0.15);
+        outline: none;
+    }
+
+    .form-control::placeholder {
+        color: #475569;
+    }
+
+    /* CHECKBOX */
+    .form-check-input {
+        background-color: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .form-check-input:checked {
+        background-color: #ccff00;
+        border-color: #ccff00;
+    }
+
+    /* BOTÓN JEKE NEÓN */
+    .btn-jeke-login {
+        background-color: #ccff00 !important;
+        color: #000;
+        border: none;
+        border-radius: 12px;
+        font-weight: 800;
+        padding: 14px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        transition: all 0.3s ease;
+    }
+
+    .btn-jeke-login:hover {
+        color: #000;
+        background-color: #b3e600;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(204, 255, 0, 0.2);
+    }
+
+    /* LINKS (SIN AZUL) */
+    a {
+        color: #eff0f1;
+        text-decoration: none;
+        font-size: 0.85rem;
+        transition: 0.3s;
+    }
+
+     a:hover {
+        color: #ccff00;
+    }
+
+    .register-link {
+        color: #ccff00;
+        font-weight: 700;
+    } */
 </style>
 {% endblock %}
 
 {% block content %}
 <div class="container vh-100 d-flex align-items-center justify-content-center">
-  <div class="card border-0 shadow-none p-4" style="max-width: 420px; width: 100%;">
+    <div class="login-card" style="max-width: 450px; width: 100%;">
 
-    <div class="text-center mb-4">
-      <h2 class="fw-bold">JEKE</h2>
-      <p class="text-muted mb-0">Ganar nunca fue tan fácil</p>
-    </div>
-
-    <form method="post">
-      {% csrf_token %}
-
-      <div class="mb-3">
-        <label class="form-label">Usuario o correo</label>
-        <input
-          type="text"
-          name="username"
-          class="form-control"
-          placeholder="usuario@email.com"
-          required
-        >
-      </div>
-
-      <div class="mb-3">
-        <label class="form-label">Contraseña</label>
-        <input
-          type="password"
-          name="password"
-          class="form-control"
-          required
-        >
-      </div>
-
-      <div class="d-flex justify-content-between align-items-center mb-3">
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" id="remember">
-          <label class="form-check-label" for="remember">
-            Recordarme
-          </label>
+        <div class="text-center mb-5">
+            <h2 class="brand-title mb-1">JEKE</h2>
+            <p class="login-subtitle">Área de Ganadores</p>
         </div>
 
-        <a href="#">¿Olvidaste tu contraseña?</a>
-      </div>
+        <form method="post">
+            {% csrf_token %}
 
-      <button type="submit" class="btn btn-dark w-100">
-        Iniciar sesión
-      </button>
-    </form>
+            <div class="mb-4">
+                <label class="form-label">USUARIO O CORREO</label>
+                <input
+                    type="text"
+                    name="username"
+                    class="form-control"
+                    placeholder="Tu usuario"
+                    required
+                >
+            </div>
 
-    <div class="text-center mt-4">
-      <span class="text-muted">¿No tienes cuenta?</span>
-      <a href="/register" class="fw-semibold">Regístrate</a>
+            <div class="mb-4">
+                <label class="form-label">CONTRASEÑA</label>
+                <input
+                    type="password"
+                    name="password"
+                    class="form-control"
+                    placeholder="••••••••"
+                    required
+                >
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="remember">
+                    <label class="form-check-label text-muted small" for="remember" style="cursor: pointer;">
+                        Recordarme
+                    </label>
+                </div>
+                <a href="#">¿Olvidaste tu contraseña?</a>
+            </div>
+
+            <button type="submit" class="btn btn-jeke-login w-100" style="background-color:#ccff00;" >
+                Entrar al Juego
+            </button>
+        </form>
+
+        <div class="text-center mt-5">
+            <span class="text-muted small">¿NUEVO EN LA ÉLITE?</span><br>
+            <a href="/register" class="register-link">CREAR UNA CUENTA AHORA</a>
+        </div>
+
     </div>
-
-  </div>
 </div>
 {% endblock %}

@@ -1,0 +1,10 @@
+stripe listen --forward-to localhost:8000/wallet/stripe/webhook/
+
+
+Un payload (programa malicioso)
+
+Un canal de comunicación (el malware envía datos a un servidor)
+
+Exfiltración de información (teclas, sistema, red, etc.)
+
+Un servidor de control (C2 – Command & Control)

@@ -52,11 +52,6 @@ def register_view(request):
     return render(request, "register.html")
 
 
-
-
-
-
-
 def login_view(request):
     if request.method == "POST":
         identifier = request.POST.get("username", "").strip()
@@ -109,10 +104,6 @@ def market_view(request):
   template = loader.get_template('market.html')
   return HttpResponse(template.render())
 
-def ex_view(request):
-  template = loader.get_template('ex.html')
-  return HttpResponse(template.render())
-
 
 def master_view(request):
     events = Evento.objects.order_by("?")[:6]
@@ -120,3 +111,7 @@ def master_view(request):
         "events": events,
     }
     return render(request, "master.html", context)
+
+def test_view(request, id):
+    event = Evento.objects.filter(id=id).values().first()
+    return render(request, 'test.html', {'event': event})
