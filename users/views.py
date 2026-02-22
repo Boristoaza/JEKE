@@ -19,56 +19,57 @@ from events.models import Evento , Category
 from .selectors import get_events , get_categorys , get_search
 
 
-def register_view(request):
+def registrar_view(request): #listo funcion traducida
     if request.method == "POST":
-        username = request.POST.get("username", "").strip()
-        email = request.POST.get("email", "").strip()
-        password = request.POST.get("password")
-        confirm_password = request.POST.get("confirm_password")
+        nombre_usuario = request.POST.get("username", "").strip()
+        correo = request.POST.get("email", "").strip()
+        contrasena = request.POST.get("password")
+        confirmar_contrasena = request.POST.get("confirm_password")
 
         # validar contraseñas
-        if password != confirm_password:
+        if contrasena != confirmar_contrasena:
             messages.error(request, "Las contraseñas no coinciden")
             return render(request, "register.html")
 
         # validar usuario existente
-        if User.objects.filter(username=username).exists():
+        if User.objects.filter(username=nombre_usuario).exists():
             messages.error(request, "El usuario ya existe")
             return render(request, "register.html")
 
         # crear usuario
-        user = User.objects.create_user(
-            username=username,
-            email=email,
-            password=password
+        usuario = User.objects.create_user(
+            username=nombre_usuario,
+            email=correo,
+            password=contrasena
         )
 
         # login automático
-        login(request, user)
+        login(request, usuario)
 
         messages.success(request, "Usuario registrado correctamente")
         return redirect("profile")
 
     return render(request, "register.html")
 
-
 def login_view(request):
     if request.method == "POST":
-        identifier = request.POST.get("username", "").strip()
-        password = request.POST.get("password")
+        identificador = request.POST.get("username", "").strip()
+        contrasena = request.POST.get("password")
+
         user = authenticate(
             request,
-            username=identifier,
-            password=password
+            username=identificador,
+            password=contrasena
         )
 
+        # intentar por email
         if user is None:
             try:
-                user_obj = User.objects.get(email__iexact=identifier)
+                usuario_obj = User.objects.get(email__iexact=identificador)
                 user = authenticate(
                     request,
-                    username=user_obj.username,
-                    password=password
+                    username=usuario_obj.username,
+                    password=contrasena
                 )
             except User.DoesNotExist:
                 user = None
@@ -83,15 +84,15 @@ def login_view(request):
 
     return render(request, "login.html")
 
+
+
+
 @login_required
 def profile_view(request):
-
     image_profile = get_image_profile(request)
-
     context = {
         "image": image_profile
     }
-
     return render(request, "profile.html", context)
 
 @require_POST

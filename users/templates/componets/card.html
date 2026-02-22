@@ -159,7 +159,20 @@
 
             <a href="{% url 'test' event.id %}" class="text-decoration-none">
                 <div class="event-body">
-                    <span class="event-subtitle">{{ event.event_name }}</span>
+                    <span class="event-subtitle" style="margin-bottom: 5px;">{{ event.event_name }}</span>
+
+                    <div class="d-flex justify-content-center gap-3 mb-3">
+                        <div class="text-center">
+                            <small style="color: #94a3b8; font-size: 10px; display: block; text-transform: uppercase;">Retorno</small>
+                            <span style="color: #ccff00; font-family: 'Kanit', sans-serif; font-size: 1.1rem; font-weight: 700;">+{{ event.profit }}%</span>
+                        </div>
+                        <div style="width: 1px; background: rgba(255,255,255,0.1); align-self: stretch;"></div>
+                        <div class="text-center">
+                            <small style="color: #94a3b8; font-size: 10px; display: block; text-transform: uppercase;">Mínimo</small>
+                            <span style="color: #ffffff; font-family: 'Kanit', sans-serif; font-size: 1.1rem; font-weight: 700;">${{ event.min_bet_amount }}</span>
+                        </div>
+                    </div>
+
                     <div class="event-vs-container">
                         <div class="team-name text-end">{{ event.first_name }}</div>
                         <div class="vs-divider">VS</div>

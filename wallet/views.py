@@ -6,9 +6,15 @@ from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 import json
+from django.contrib.auth.decorators import login_required
+
+from wallet.models import Payment , Balance
+from django.db.models import F
 
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
+endpoint_secret = settings.STRIPE_WEBHOOK_SECRET
+
 
 
 def home(request):
@@ -19,8 +25,8 @@ def pasarela(request):
     return render(request, 'pasarela.html')
 
 
+@login_required
 def create_checkout_session(request):
-
     if request.method == "POST":
         amount = Decimal(request.POST.get("amount"))
         user_name = request.user.username
@@ -44,53 +50,80 @@ def create_checkout_session(request):
                     'quantity': 1,
                 }],
 
+
                 mode='payment',
+
+                payment_intent_data={
+                    "metadata": {
+                        "id_customer": str(request.user.pk),
+                        "username": request.user.username,
+                    }
+                },
                 success_url=request.build_absolute_uri('/wallet/success/'),
                 cancel_url=request.build_absolute_uri('/events/'),
             )
             return redirect(session.url)
+
+
 @csrf_exempt
 def stripe_webhook(request):
-    stripe.api_key = settings.STRIPE_SECRET_KEY
-    endpoint_secret = settings.STRIPE_WEBHOOK_SECRET
+  payload = request.body
+  event = None
 
-    payload = request.body
-    sig_header = request.META.get("HTTP_STRIPE_SIGNATURE")
+  try:
+    event = stripe.Event.construct_from(
+      json.loads(payload), stripe.api_key
+    )
+  except ValueError as e:
+    # Invalid payload
+    return HttpResponse(status=400)
 
+  if endpoint_secret:
+        sig_header = request.headers.get('stripe-signature')
+        try:
+            event = stripe.Webhook.construct_event(
+                payload, sig_header, endpoint_secret
+            )
+        except stripe.error.SignatureVerificationError as e:
+            print('⚠️  Webhook signature verification failed.' + str(e))
+            return HttpResponse(success=False)
+
+  # Handle the event
+  if event.type == 'payment_intent.succeeded':
+
+    payment_intent = event.data.object
+    id_costumer = int(payment_intent.metadata.id_customer)
+    username= payment_intent.metadata.username
+    amount=payment_intent.amount / 100
     try:
-        event = stripe.Webhook.construct_event(
-            payload, sig_header, endpoint_secret
+        Payment.objects.create(
+            user_id=int(id_costumer),
+            username=username,
+            amount=amount
         )
-    except Exception as e:
-        print("❌ Webhook error:", e)
+        print("Guardado exitoso")
+        Balance.objects.get_or_create(user_id=int(id_costumer))
+
+        Balance.objects.filter(user_id=int(id_costumer)).update(
+            balance=F("balance") + amount
+        )
+        print("gracias por su compra suerte")
+    except ValueError:
+        print("ID inválido")
         return HttpResponse(status=400)
 
-    event_type = event["type"]
-    print("📩 Evento:", event_type)
+    except Exception as e:
+        print(f"Error real: {e}")
+        return HttpResponse(status=500)
 
-    if event_type == "checkout.session.completed":
-        session = event["data"]["object"]
+  elif event.type == 'payment_method.attached':
+    payment_method = event.data.object
+  else:
+    print('Unhandled event type {}'.format(event.type))
+  return HttpResponse(status=200)
 
-        payment_intent_id = session.get("payment_intent")
-        if not payment_intent_id:
-            print("⚠️ No payment_intent")
-            return HttpResponse(status=200)
 
-        # 👉 forma correcta
-        payment_intent = stripe.PaymentIntent.retrieve(payment_intent_id)
-        charge_id = payment_intent.latest_charge
-        charge = stripe.Charge.retrieve(charge_id)
 
-        balance_tx = stripe.BalanceTransaction.retrieve(
-            charge.balance_transaction
-        )
-
-        print("✅ Pago exitoso")
-        print("💰 Pagado:", balance_tx.amount / 100)
-        print("🏦 Comisión Stripe:", balance_tx.fee / 100)
-        print("📥 Neto recibido:", balance_tx.net / 100)
-
-    return HttpResponse(status=200)
 
 
 def success(request):
