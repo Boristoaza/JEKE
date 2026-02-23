@@ -15,7 +15,7 @@ class Evento(models.Model):
     )
     event_name = models.CharField(max_length=255)
     category = models.CharField(max_length=100)
-    profit = models.IntegerField(default=80,validators=[MinValueValidator(75),MinValueValidator(95)])
+    profit = models.IntegerField(default=80,validators=[MinValueValidator(75),MaxValueValidator(95)])
     min_bet_amount = models.DecimalField(max_digits=10 , decimal_places=2, default=Decimal("5.00"), validators=[MinValueValidator(Decimal("5.00"))])
     first_name = models.CharField(max_length=255)
     second_name = models.CharField(max_length=255)
