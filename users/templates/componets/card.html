@@ -186,6 +186,8 @@
                     {% csrf_token %}
                     <input type="hidden" name="event_id" value="{{ event.id }}">
                     <input type="hidden" name="choice" value="{{ event.first_name }}">
+                        <input type="hidden" name="profit" value="{{ event.profit }}">
+                    <input type="hidden" name="bet_priece" value="{{event.min_bet_amount}}">
                     <button type="submit" class="bet-option w-100">
                         <span class="bet-label">Local</span>
                         <span class="bet-value">2.10</span>
@@ -195,6 +197,8 @@
                 <form method="post" action="{% url 'bets:making_bet' %}" class="m-0">
                     {% csrf_token %}
                     <input type="hidden" name="event_id" value="{{ event.id }}">
+                        <input type="hidden" name="profit" value="{{ event.profit }}">
+                    <input type="hidden" name="bet_priece" value="{{event.min_bet_amount}}">
                     <input type="hidden" name="choice" value="Empate">
                     <button type="submit" class="bet-option w-100">
                         <span class="bet-label">Empate</span>
@@ -206,6 +210,8 @@
                     {% csrf_token %}
                     <input type="hidden" name="event_id" value="{{ event.id }}">
                     <input type="hidden" name="choice" value="{{ event.second_name }}">
+                    <input type="hidden" name="profit" value="{{ event.profit }}">
+                    <input type="hidden" name="bet_priece" value="{{event.min_bet_amount}}">
                     <button type="submit" class="bet-option w-100">
                         <span class="bet-label">Visita</span>
                         <span class="bet-value">1.85</span>
