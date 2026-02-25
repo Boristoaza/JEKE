@@ -1,17 +1,19 @@
 from events.models import Category
-from users.selectors import get_events
-from wallet.models import Payment , Balance
-from django.contrib.auth.models import User
-from django.db.models import Sum
+from wallet.models import Balance
 
 
 def site_info(request):
-  categorys = Category.objects.all().values()
-  user_id = request.user.id
 
+    categorys = Category.objects.all().values()
 
-  balance = Balance.objects.get(user=request.user).balance
+    balance = None
 
-  all_info = {"category":categorys , "balance":balance}
+    if request.user.is_authenticated:
+        balance_obj = Balance.objects.filter(user=request.user).first()
+        if balance_obj:
+            balance = balance_obj.balance
 
-  return all_info
+    return {
+        "category": categorys,
+        "balance": balance
+    }

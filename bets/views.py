@@ -1,36 +1,38 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from decimal import Decimal
+
 from bets.models import Bet
 from events.models import Evento
-from django.contrib.auth.decorators import login_required
 from wallet.models import Balance
-from decimal import Decimal
+from django.contrib.auth.models import User
 
 
 @login_required
 def making_bet(request):
 
-    if not request.user.is_authenticated:
-        return redirect("login")
-
     if request.method == "POST":
         user = request.user
+
         event_id = request.POST.get("event_id")
         choice = request.POST.get("choice")
         date_close = request.POST.get("date_close")
-
-        profit = request.POST.get("profit")
-        bet_priece = request.POST.get("bet_priece")
-
-        print(f" esto es lo que buscar =  {profit} {bet_priece} ")
-
+        bet_price = request.POST.get("bet_priece")
 
         evento = get_object_or_404(Evento, id=event_id)
-        balance_obj = Balance.objects.get(user=user)
-        bet_priece = Decimal(bet_priece)
 
-        if bet_priece <= balance_obj.balance:
-            resta = balance_obj.balance - bet_priece
+        # Obtener o crear balance
+        balance_obj, created = Balance.objects.get_or_create(user=user)
 
+        bet_price = Decimal(bet_price)
+
+        if bet_price <= balance_obj.balance:
+
+            # Descontar saldo
+            balance_obj.balance -= bet_price
+            balance_obj.save()
+
+            # Crear apuesta
             Bet.objects.create(
                 user=user,
                 event=evento,
@@ -38,31 +40,19 @@ def making_bet(request):
                 date_close_bet=date_close
             )
 
-            balance_obj.balance = resta
-            balance_obj.save()
+            print("Apuesta creada con éxito")
 
-            print("apuesta creada con exito")
         else:
-            print("saldo insuficiente")
-
-
-
-
-
-        # Bet.objects.create(
-        #     user=user,
-        #     event=evento,
-        #     select_option=choice,
-        #     date_close_bet=date_close
-        # )
+            print("Saldo insuficiente")
 
         return redirect("bets:making_bet")
 
-    user_id = request.user.id
-    my_bets = Bet.objects.filter(user=user_id)
+    # GET
+    my_bets = Bet.objects.filter(user=request.user)
+    print(request.user)
 
-    data = {
-        "data":my_bets
-    }
-
-    return render(request, "bets.html",data)
+    return render(
+        request,
+        "bets.html",
+        {"data": my_bets}
+    )
