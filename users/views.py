@@ -15,6 +15,8 @@ from users.selectors import get_image_profile
 
 
 from events.models import Evento , Category
+from bets.models import Bet
+
 # from users.models import Image
 from .selectors import get_events , get_categorys , get_search
 
@@ -107,10 +109,19 @@ def market_view(request):
 
 
 def master_view(request):
+
     events = Evento.objects.order_by("?")[:6]
+
+    for event in events:
+        event.user_bet = Bet.objects.filter(
+            user=request.user,
+            event=event
+        ).first()
+
     context = {
         "events": events,
     }
+
     return render(request, "master.html", context)
 
 def test_view(request, id):

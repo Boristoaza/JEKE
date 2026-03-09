@@ -142,6 +142,24 @@
     font-size: 1.1rem;
     font-weight: 700;
 }
+/* Mensaje de Apuesta Realizada */
+.bet-done-msg {
+    grid-column: span 3; /* Ocupa las 3 columnas del grid */
+    background: rgba(204, 255, 0, 0.1); /* Fondo verde tenue */
+    color: #ccff00; /* Verde JEKE */
+    font-family: 'Kanit', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding: 15px;
+    margin: 0;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
 </style>
 
 
@@ -180,9 +198,15 @@
                     </div>
                 </div>
             </a>
-
+            {% if  event.user_bet %}
             <div class="event-actions">
-                <form method="post" action="{% url 'bets:making_bet' %}" class="m-0">
+                    <p class="bet-done-msg">
+                        <i class="bi bi-check-circle-fill"></i> APUESTA REALIZADA
+                    </p>
+                </div>
+            {% else %}
+            <div class="event-actions">
+                <form method="post" action="{% url 'bets:making_bet' %}" class="m-0" >
                     {% csrf_token %}
                     <input type="hidden" name="event_id" value="{{ event.id }}">
                     <input type="hidden" name="choice" value="{{ event.first_name }}">
@@ -218,6 +242,7 @@
                     </button>
                 </form>
             </div>
+            {% endif %}
 
         </div>
     </div>

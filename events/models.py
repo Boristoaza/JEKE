@@ -21,6 +21,29 @@ class Evento(models.Model):
     second_name = models.CharField(max_length=255)
     description = models.TextField(max_length=255)
     event_date = models.DateTimeField(default=timezone.now,editable= False)
+
+    class State (models.TextChoices):
+        OPEN = "open", "Abierto"
+        CLOSE = "close" , "Abierto"
+        FINISHED = "finished","Finalizado"
+    state = models.CharField(
+        max_length=40,
+        choices= State.choices,
+        default=State.OPEN,
+    )
+
+    class Winner_Result (models.TextChoices):
+        FIRST_OPTION = "first_option","primera_opcion"
+        SECOND_OPTION = "second_option","segunda_opcion"
+        DRAW = "draw","empate"
+
+    winner_result = models.CharField(
+        max_length=30,
+        choices=Winner_Result.choices,
+        blank=True,
+    )
+
+
     close_date = models.DateTimeField()
     created_at = models.DateTimeField(auto_now_add=True)
 
